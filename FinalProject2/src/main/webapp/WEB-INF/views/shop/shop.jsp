@@ -101,13 +101,35 @@
           </div>
 		
 		</c:forEach>
-          
-
-
-
+        
         </div>
         <!-- /.row -->
-
+	
+	<div class="page-display">
+		<ul class="pagination pagination-sm">
+		<c:if test="${startPageNum ne 1 }">
+			<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }">Prev</a></li>
+		</c:if>
+		<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+			<c:choose>
+				<c:when test="${i eq pageNum }">
+					<li class="page-item active"><a class="page-link" href="shop.do?pageNum=${i }">${i }</a></li>
+				</c:when>
+				<c:otherwise>
+					<li class="page-item"><a class="page-link" href="shop.do?pageNum=${i }">${i }</a></li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${endPageNum lt totalPageCount }">
+			<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }">Next</a></li>
+		</c:if>
+		</ul>	
+	</div>
+	
+	
+	
+	
+	
       </div>
       <!-- /.col-lg-9 -->
 

@@ -13,13 +13,13 @@ public class ShopController {
 	@Autowired
 	private ProductService productservice;
 	
-	@RequestMapping("/shop/shop.do")
-	public ModelAndView shoplist(ModelAndView mView){
-		
-		productservice.getList(mView);
-		//  views/shop/shop/.jsp
-		mView.setViewName("shop/shop");
-		return mView;
-		
-	}
+//	@RequestMapping("/shop/shop.do")
+//	public ModelAndView shoplist(ModelAndView mView){
+//		
+//		productservice.getList(mView);
+//		//  views/shop/shop/.jsp
+//		mView.setViewName("shop/shop");
+//		return mView;
+//		
+//	}
 }

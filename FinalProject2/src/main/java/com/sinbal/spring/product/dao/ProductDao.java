@@ -7,4 +7,7 @@ import com.sinbal.spring.product.dto.ProductDto;
 public interface ProductDao {
 	public void insert(ProductDto dto);
 	public List<ProductDto> getList();
+	public List<ProductDto> productList(ProductDto dto);
+	public List<ProductDto> productListSearch(ProductDto dto);
+	public int getCount(ProductDto dto);
 }
