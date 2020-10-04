@@ -62,15 +62,34 @@ public class ProductServiceImpl implements ProductService{
 	
 	
 	//한 페이지에 나타낼 row 의 갯수
-		final int PAGE_ROW_COUNT=5;
-		//하단 디스플레이 페이지 갯수
-		final int PAGE_DISPLAY_COUNT=9;
+	final int PAGE_ROW_COUNT=5;
+	//하단 디스플레이 페이지 갯수
+	final int PAGE_DISPLAY_COUNT=9;
+	
 	
 	@Override
 	public void productList(HttpServletRequest request) {
-		if(request.getParameter("search")=="") {
+			String search = (String)request.getParameter("search");
+			String kind = (String)request.getParameter("kind");
+			String arr = (String)request.getParameter("arr");
 			
-		}else {	
+			if(search==null) {
+				search="";
+			}
+			if(kind==null) {
+				kind="";
+			}
+			if(arr==null) {
+				arr="";
+			}
+			
+			System.out.println(search);
+			System.out.println(kind);
+			System.out.println(arr);
+			
+			String encodedK=URLEncoder.encode(search);
+			
+			
 			//보여줄 페이지의 번호
 			int pageNum=1;
 			//보여줄 페이지의 번호가 파라미터로 전달되는지 읽어와 본다.	
@@ -88,9 +107,21 @@ public class ProductServiceImpl implements ProductService{
 			ProductDto dto=new ProductDto();
 			dto.setStartRowNum(startRowNum);
 			dto.setEndRowNum(endRowNum);
+			dto.setSearch(search);
+			
+			if(!search.equals("")) {
+				dto.setSearch(search);
+			}
+			if(!kind.equals("")) {
+				dto.setKind(kind);
+			}
+			if(!arr.equals("")) {
+				dto.setArr(arr);
+			}
+			
 			
 			//파일 목록 얻어오기
-			List<ProductDto> list=productDao.productList(dto);
+			List<ProductDto> list=productDao.productListSearch(dto);
 			//전체 row 의 갯수 
 			int totalRow=productDao.getCount(dto);
 			
@@ -113,6 +144,9 @@ public class ProductServiceImpl implements ProductService{
 			request.setAttribute("endPageNum", endPageNum);
 			request.setAttribute("pageNum", pageNum);
 			request.setAttribute("totalPageCount", totalPageCount);
-		}
+			request.setAttribute("search", search);
+			request.setAttribute("encodedK", encodedK);
+			request.setAttribute("arr", arr);
+			request.setAttribute("kindSelect", kind);
 	}
 }

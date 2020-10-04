@@ -43,5 +43,5 @@ ALTER TABLE sbproduct_sub
         
 
 INSERT INTO sbproduct
-(num, kind, productname, content, quantity, price, regdate)
-VALUES(sbproduct_seq.NEXTVAL, 'sneakers', '삼성슬리퍼', '<p>삼성슬리퍼</p>', #{quantity }, #{price }, SYSDATE);
+(num, kind, productname, content, price, regdate)
+VALUES(sbproduct_seq.NEXTVAL, 'sneakers', '삼성슬리퍼5', '<p>삼성슬리퍼</p>', 5000, SYSDATE);

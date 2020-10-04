@@ -69,8 +69,8 @@
 	</c:if>
 	
     </ul>
-    <form action="${pageContext.request.contextPath }/search.do" method="post" class="form-inline my-2 my-lg-0">
-      	<input class="form-control mr-sm-2" type="search" placeholder="상품명..." aria-label="Search">
+    <form action="${pageContext.request.contextPath }/shop/shop.do" method="post" class="form-inline my-2 my-lg-0">
+      	<input class="form-control mr-sm-2" value="${search }" type="search" placeholder="상품명..." aria-label="Search" name="search">
       	<button class="btn btn-outline-light my-2 my-sm-0" type="submit">
       		<svg width="1.1em" height="1.1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			  	<path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
@@ -78,6 +78,7 @@
 			</svg>
 		</button>
     </form>
+
 <c:choose>
 	<c:when test="${empty id }">
 		<div id="login">
