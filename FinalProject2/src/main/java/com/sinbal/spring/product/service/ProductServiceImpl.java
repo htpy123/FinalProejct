@@ -69,22 +69,26 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Override
 	public void productList(HttpServletRequest request) {
-			String search = (String)request.getParameter("search");
-			String kind = (String)request.getParameter("kind");
-			String arr = (String)request.getParameter("arr");
+			String search = request.getParameter("search");
+			String kindSelect = request.getParameter("kindSelect");
+			String arr = request.getParameter("arr");
+			String keyword = request.getParameter("keyword");
 			
 			if(search==null) {
 				search="";
 			}
-			if(kind==null) {
-				kind="";
+			if(kindSelect==null) {
+				kindSelect="";
 			}
 			if(arr==null) {
 				arr="";
 			}
+			if(keyword==null) {
+				keyword="";
+			}
 			
 			System.out.println(search);
-			System.out.println(kind);
+			System.out.println(kindSelect);
 			System.out.println(arr);
 			
 			String encodedK=URLEncoder.encode(search);
@@ -112,16 +116,18 @@ public class ProductServiceImpl implements ProductService{
 			if(!search.equals("")) {
 				dto.setSearch(search);
 			}
-			if(!kind.equals("")) {
-				dto.setKind(kind);
+			if(!kindSelect.equals("")) {
+				dto.setKindSelect(kindSelect);
 			}
 			if(!arr.equals("")) {
 				dto.setArr(arr);
 			}
-			
+			if(!keyword.equals("")) {
+				dto.setKeyword(keyword);
+			}
 			
 			//파일 목록 얻어오기
-			List<ProductDto> list=productDao.productListSearch(dto);
+			List<ProductDto> list=productDao.productList(dto);
 			//전체 row 의 갯수 
 			int totalRow=productDao.getCount(dto);
 			
@@ -146,7 +152,8 @@ public class ProductServiceImpl implements ProductService{
 			request.setAttribute("totalPageCount", totalPageCount);
 			request.setAttribute("search", search);
 			request.setAttribute("encodedK", encodedK);
+			request.setAttribute("kindSelect", kindSelect);
 			request.setAttribute("arr", arr);
-			request.setAttribute("kindSelect", kind);
 	}
+	
 }

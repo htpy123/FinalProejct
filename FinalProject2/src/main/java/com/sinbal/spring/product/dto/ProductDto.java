@@ -14,13 +14,14 @@ public class ProductDto {
 	private String search;
 	private String arr;
 	private String kindSelect;
+	private String keyword;
 	
 	//디폴트 생성자 
 	public ProductDto() {}
 
 	public ProductDto(int num, String productname, String kind, String content, float price, String regdate,
 			String profile, String profile2, int startRowNum, int endRowNum, String search, String arr,
-			String kindSelect) {
+			String kindSelect, String keyword) {
 		super();
 		this.num = num;
 		this.productname = productname;
@@ -35,6 +36,7 @@ public class ProductDto {
 		this.search = search;
 		this.arr = arr;
 		this.kindSelect = kindSelect;
+		this.keyword = keyword;
 	}
 
 	public int getNum() {
@@ -141,6 +143,13 @@ public class ProductDto {
 		this.kindSelect = kindSelect;
 	}
 
-	
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
 	
 }

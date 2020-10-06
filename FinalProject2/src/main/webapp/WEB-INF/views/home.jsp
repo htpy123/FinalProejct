@@ -59,6 +59,13 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+
+
+<jsp:include page="include/Kategorie.jsp">
+	<jsp:param value="index" name="thisPage"/>
+</jsp:include>
+
+
 <div class="container marketing">
 
     <!-- Three columns of text below the carousel -->

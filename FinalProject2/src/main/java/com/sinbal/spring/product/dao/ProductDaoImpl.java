@@ -24,16 +24,11 @@ public class ProductDaoImpl implements ProductDao{
 		return session.selectList("product.getList");
 	}
 
+	
 	@Override
 	public List<ProductDto> productList(ProductDto dto) {
 		
 		return session.selectList("product.productList", dto);
-	}
-	
-	@Override
-	public List<ProductDto> productListSearch(ProductDto dto) {
-		
-		return session.selectList("product.productListSearch", dto);
 	}
 	
 	@Override

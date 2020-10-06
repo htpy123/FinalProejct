@@ -13,24 +13,6 @@
 		order by num desc
 	</select>
 	
-	<select id="productList" parameterType="productDto" resultType="productDto">
-		SELECT *
-		FROM
-			(SELECT result1.*, ROWNUM AS rnum
-			FROM
-				(SELECT num, productname, kind, content, price, regdate, profile
-				FROM sbproduct
-				<choose>
-					<when test="arr == ''">
-						ORDER BY num DESC) result1)
-					</when>
-					<when test="arr == 'priceHighArr'">
-						ORDER BY num ASC) result1)
-					</when>
-				</choose>
-		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
-	</select>
-	
 	<select id="getCount" parameterType="productDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM sbproduct
@@ -41,15 +23,35 @@
 		</choose>
 	</select>	
 	
-	<select id="productListSearch" parameterType="productDto" resultType="productDto">
+	<select id="productList" parameterType="productDto" resultType="productDto">
 		SELECT *
 		FROM
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM
 				(SELECT num, productname, kind, content, price, regdate, profile
 				FROM sbproduct
-				WHERE productname LIKE '%'||#{search}||'%'	  
-				ORDER BY num DESC) result1)
+				<choose>
+					<when test="search!=null and kindSelect!=null">
+						WHERE productname LIKE '%'||#{search }||'%'
+						OR kind LIKE '%'||#{kindSelect }||'%'
+					</when>
+					<when test="search!=null">
+						WHERE productname LIKE '%'||#{search }||'%'
+					</when>
+					<when test="kindSelect!=null">
+						WHERE kind LIKE '%'||#{kindSelect }||'%'
+					</when>
+				</choose>
+				<choose>
+					<when test="arr=='newArr'">
+						ORDER BY num DESC
+					</when>
+					<when test="arr=='popArr'">
+						ORDER BY num ASC
+					</when>
+				</choose>
+				)result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
+
 </mapper>

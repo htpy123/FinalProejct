@@ -44,17 +44,5 @@ public class ProductController {
 		//Map 을 @ResponseBody 로 리턴해준다. 
 		return map;
 	}	
-	
-	
-//	@RequestMapping("/${pageContext.request.contextPath }/search")
-//	public ModelAndView searchList(HttpServletRequest request,
-//			ModelAndView mView){
-//		request.getAttribute("search");
-//		productService.productList(request);
-//		//  views/shop/shop/.jsp
-//		mView.setViewName("shop/shop");
-//		return mView;
-//		
-//	}
 
 }
