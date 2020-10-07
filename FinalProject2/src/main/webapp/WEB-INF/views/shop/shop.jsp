@@ -27,43 +27,26 @@
     <div class="row">
 
 	<div class="col-lg-3" >
-		<form action="${pageContext.request.contextPath }/shop/shop.do" method="post" id="listForm">
-			<div class="form-group">
-				<label for="kindSelect">카테고리</label>
-				<select id="kindSelect" name="kindSelect">
-					<option value="default">==선택==</option>
-			        <option value="sneakers" <c:if test="${kindSelect eq 'sneakers' }">selected</c:if>>스니커즈</option>
-			        <option value="running" <c:if test="${kindSelect eq 'running' }">selected</c:if>>런닝화</option>
-			        <option value="walker" <c:if test="${kindSelect eq 'walker' }">selected</c:if>>워커</option>
-			     </select>
-			</div>
-			<div class="form-group">
-				<label for="arr">정렬</label>
-				<select id="arr" name="arr">
-					<option value="default">==선택==</option>
-					<option value="newArr" <c:if test="${arr eq 'newArr' }">selected</c:if>>최신순</option>
-					<option value="popArr" <c:if test="${arr eq 'popArr' }">selected</c:if>>인기순</option>
-					<option value="priceHighArr" <c:if test="${arr eq 'priceHighArr' }">selected</c:if>>가격높은순</option>
-					<option value="priceLowArr" <c:if test="${arr eq 'priceLowArr' }">selected</c:if>>가격낮은순</option>
-					<option value="saleArr" <c:if test="${arr eq 'saleArr' }">selected</c:if>>판매순</option>
-					<option value="stockArr" <c:if test="${arr eq 'stockArr' }">selected</c:if>>재고없음</option>
-				</select>
-			</div>
-			<input value="${keyword }" type="text" name="keyword" placeholder="검색어..."/>
-			<button type="submit" onclick="to_ajax();">검색</button>
-		</form>
-		
-	</div>
-			
+			<p>스니커즈</p>
 			<div class="list-group" id="buttonList">
-				<button onclick="list_ajax('newArr');" class="list-group-item list-group-item-action">Cras justo odio</button>
-				<button type="button" class="list-group-item list-group-item-action">Dapibus ac facilisis in</button>
-				<button type="button" class="list-group-item list-group-item-action">Morbi leo risus</button>
-				<button type="button" class="list-group-item list-group-item-action">Porta ac consectetur ac</button>
-				<button onclick="list_ajax('popArr');" class="list-group-item list-group-item-action">Vestibulum at eros</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
 			</div>
-		
-      <!-- /.col-lg-3  상품목록-->
+			<p>런닝화</p>
+			<div class="list-group" id="buttonList">
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceHighArr"><button class="list-group-item list-group-item-action">스니커즈</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">런닝화</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">워커</button>
+			</div>
+			<p>워커</p>
+			<div class="list-group" id="buttonList">
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceHighArr"><button class="list-group-item list-group-item-action">스니커즈</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">런닝화</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">워커</button>
+			</div>						
+
+	</div>
 
       <div class="col-lg-9" style="margin-top: 100px">
 
@@ -90,25 +73,23 @@
         
         </div>
         <!-- /.row -->
-        
-        
 		<div class="page-display">
 			<ul class="pagination pagination-sm">
 			<c:if test="${startPageNum ne 1 }">
-				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }&search=${encodedK }&arr=${arr }">Prev</a></li>
+				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Prev</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 				<c:choose>
 					<c:when test="${i eq pageNum }">
-						<li class="page-item active"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }">${i }</a></li>
+						<li class="page-item active"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">${i }</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="page-item"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }">${i }</a></li>
+						<li class="page-item"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">${i }</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:if test="${endPageNum lt totalPageCount }">
-				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }&search=${encodedK }&arr=${arr }">Next</a></li>
+				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Next</a></li>
 			</c:if>
 			</ul>	
 		</div>	
@@ -140,20 +121,6 @@ function to_ajax(){
         url : '${pageContext.request.contextPath }/shop/shop.do',
         data : formData,
         success:function(data){
-        }
-    });
-    return false;
-}
-
-function list_ajax(inja){
-	var arrData = { arr:inja };
-	$.ajax({
-        type : 'post',
-        url : '${pageContext.request.contextPath }/shop/shop.do',
-        data : arrData,
-        dataType : 'json',
-        success:function(data){
-        	console.log(arrData);
         }
     });
     return false;

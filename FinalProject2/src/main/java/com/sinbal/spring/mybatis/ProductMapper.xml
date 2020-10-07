@@ -7,7 +7,7 @@
 		VALUES(sbproduct_seq.NEXTVAL, #{kind }, #{productname },  #{content }, #{price }, SYSDATE,#{profile})
 	</insert>
 	
-	<select id="getList" resultType="ProductDto">
+	<select id="getList" resultType="productDto">
 		select num,productname,kind,content,price,regdate,profile,profile2
 		from sbproduct
 		order by num desc
@@ -17,8 +17,14 @@
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM sbproduct
 		<choose>
-			<when test="search != null">
-				WHERE productname LIKE '%'||#{search}||'%' 
+			<when test="kindSelect=='sneakers'">
+				WHERE kind = #{kindSelect }
+			</when>
+			<when test="kindSelect=='running'">
+				WHERE kind = #{kindSelect }
+			</when>
+			<when test="kindSelect=='walker'">
+				WHERE kind = #{kindSelect }
 			</when>
 		</choose>
 	</select>	
@@ -31,23 +37,25 @@
 				(SELECT num, productname, kind, content, price, regdate, profile
 				FROM sbproduct
 				<choose>
-					<when test="search!=null and kindSelect!=null">
-						WHERE productname LIKE '%'||#{search }||'%'
-						OR kind LIKE '%'||#{kindSelect }||'%'
+					<when test="kindSelect=='sneakers'">
+						WHERE kind = #{kindSelect }
 					</when>
-					<when test="search!=null">
-						WHERE productname LIKE '%'||#{search }||'%'
+					<when test="kindSelect=='running'">
+						WHERE kind = #{kindSelect }
 					</when>
-					<when test="kindSelect!=null">
-						WHERE kind LIKE '%'||#{kindSelect }||'%'
+					<when test="kindSelect=='walker'">
+						WHERE kind = #{kindSelect }
 					</when>
 				</choose>
 				<choose>
-					<when test="arr=='newArr'">
-						ORDER BY num DESC
+					<when test="arr=='priceHighArr'">
+						ORDER BY price DESC , num DESC
 					</when>
-					<when test="arr=='popArr'">
-						ORDER BY num ASC
+					<when test="arr=='priceLowArr'">
+						ORDER BY price ASC , num DESC
+					</when>
+					<when test="arr=='buyHighArr'">
+						ORDER BY buycount DESC , num DESC
 					</when>
 				</choose>
 				)result1)

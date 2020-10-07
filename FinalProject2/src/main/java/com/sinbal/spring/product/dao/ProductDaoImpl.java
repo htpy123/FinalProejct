@@ -27,7 +27,6 @@ public class ProductDaoImpl implements ProductDao{
 	
 	@Override
 	public List<ProductDto> productList(ProductDto dto) {
-		
 		return session.selectList("product.productList", dto);
 	}
 	
