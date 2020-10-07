@@ -5,10 +5,16 @@ public class ProductDto {
 	private String productname;
 	private String kind;
 	private String content;
-	private float price;
+	private int price;
 	private String regdate;
 	private String profile;
 	private String profile2;
+	private int sbsize;
+	private int sbcount;
+	private int[] sizearr; //사이즈를 받아낼 배열
+	private int[] countarr; //수량을 받아낼 배열
+	private int[] pricearr; //가격을 받아낼 배열
+	private int totalPrice; //총 가격
 	private int startRowNum;
 	private int endRowNum;
 	private String search;
@@ -19,9 +25,10 @@ public class ProductDto {
 	//디폴트 생성자 
 	public ProductDto() {}
 
-	public ProductDto(int num, String productname, String kind, String content, float price, String regdate,
-			String profile, String profile2, int startRowNum, int endRowNum, String search, String arr,
-			String kindSelect, String keyword) {
+	public ProductDto(int num, String productname, String kind, String content, int price, String regdate,
+			String profile, String profile2, int sbsize, int sbcount, int[] sizearr, int[] countarr, int[] pricearr,
+			int totalPrice, int startRowNum, int endRowNum, String search, String arr, String kindSelect,
+			String keyword) {
 		super();
 		this.num = num;
 		this.productname = productname;
@@ -31,6 +38,12 @@ public class ProductDto {
 		this.regdate = regdate;
 		this.profile = profile;
 		this.profile2 = profile2;
+		this.sbsize = sbsize;
+		this.sbcount = sbcount;
+		this.sizearr = sizearr;
+		this.countarr = countarr;
+		this.pricearr = pricearr;
+		this.totalPrice = totalPrice;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 		this.search = search;
@@ -71,11 +84,11 @@ public class ProductDto {
 		this.content = content;
 	}
 
-	public float getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(float price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
@@ -101,6 +114,54 @@ public class ProductDto {
 
 	public void setProfile2(String profile2) {
 		this.profile2 = profile2;
+	}
+
+	public int getSbsize() {
+		return sbsize;
+	}
+
+	public void setSbsize(int sbsize) {
+		this.sbsize = sbsize;
+	}
+
+	public int getSbcount() {
+		return sbcount;
+	}
+
+	public void setSbcount(int sbcount) {
+		this.sbcount = sbcount;
+	}
+
+	public int[] getSizearr() {
+		return sizearr;
+	}
+
+	public void setSizearr(int[] sizearr) {
+		this.sizearr = sizearr;
+	}
+
+	public int[] getCountarr() {
+		return countarr;
+	}
+
+	public void setCountarr(int[] countarr) {
+		this.countarr = countarr;
+	}
+
+	public int[] getPricearr() {
+		return pricearr;
+	}
+
+	public void setPricearr(int[] pricearr) {
+		this.pricearr = pricearr;
+	}
+
+	public int getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(int totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public int getStartRowNum() {
@@ -151,5 +212,5 @@ public class ProductDto {
 		this.keyword = keyword;
 	}
 
-	
+
 }

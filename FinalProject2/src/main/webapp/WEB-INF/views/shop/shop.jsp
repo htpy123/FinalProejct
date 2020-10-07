@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/sinbar.css" />
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-lates.min.js"></script>
+
 </head>
 <body>
 
@@ -26,7 +26,9 @@
 
     <div class="row">
 
-	<div class="col-lg-3" >
+      <div class="col-lg-3">
+
+        <h1 class="my-4">신발목록</h1>
 			<p>스니커즈</p>
 			<div class="list-group" id="buttonList">
 				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
@@ -35,18 +37,19 @@
 			</div>
 			<p>런닝화</p>
 			<div class="list-group" id="buttonList">
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceHighArr"><button class="list-group-item list-group-item-action">스니커즈</button></a>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">런닝화</button>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">워커</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
 			</div>
 			<p>워커</p>
 			<div class="list-group" id="buttonList">
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceHighArr"><button class="list-group-item list-group-item-action">스니커즈</button></a>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">런닝화</button>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">워커</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
 			</div>						
 
-	</div>
+      </div>
+      <!-- /.col-lg-3  상품목록-->
 
       <div class="col-lg-9" style="margin-top: 100px">
 
@@ -58,7 +61,7 @@
               <a href="#"><img class="card-img-top" src="${pageContext.request.contextPath }${tmp.profile}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <a href="#">${tmp.productname }</a>
+                  <a href="${pageContext.request.contextPath }/shop/detail.do?num=${tmp.num}">${tmp.productname }</a>
                 </h4>
                 <h6>${tmp.price }</h6>
                 <p class="card-text">심플 이즈 베스트 단화!</p>
@@ -70,10 +73,13 @@
           </div>
 		
 		</c:forEach>
-        
+ 	        
+
+
+
         </div>
         <!-- /.row -->
-		<div class="page-display">
+ 		<div class="page-display">
 			<ul class="pagination pagination-sm">
 			<c:if test="${startPageNum ne 1 }">
 				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Prev</a></li>
@@ -92,9 +98,7 @@
 				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Next</a></li>
 			</c:if>
 			</ul>	
-		</div>	
-
-	
+		</div>
       </div>
       <!-- /.col-lg-9 -->
 
@@ -103,30 +107,10 @@
 
   </div>
   
-
   
 <jsp:include page="../include/footer.jsp">
 	<jsp:param value="shop" name="thisPage"/>
 </jsp:include>
-
-
-<script>
-
-//form ajax 요청으로 리스트 불러오기
-function to_ajax(){
-	var formData = $("#listForm").serialize();
-	console.log(formData);
-    $.ajax({
-        type : 'post',
-        url : '${pageContext.request.contextPath }/shop/shop.do',
-        data : formData,
-        success:function(data){
-        }
-    });
-    return false;
-}
-
-</script>
   
 </body>
 </html>

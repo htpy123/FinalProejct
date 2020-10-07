@@ -24,7 +24,6 @@ public class HomeController {
 		return "home";
 	}
 	
-	
 	// info.do라는 요청이오면
 	@RequestMapping("/info.do")
 	public String info() {
@@ -33,7 +32,5 @@ public class HomeController {
 		return "info";
 	}
 	
-	
 
-	
 }

@@ -7,24 +7,19 @@
 		VALUES(sbproduct_seq.NEXTVAL, #{kind }, #{productname },  #{content }, #{price }, SYSDATE,#{profile})
 	</insert>
 	
-	<select id="getList" resultType="productDto">
-		select num,productname,kind,content,price,regdate,profile,profile2
-		from sbproduct
-		order by num desc
-	</select>
-	
 	<select id="getCount" parameterType="productDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM sbproduct
 		<choose>
-			<when test="kindSelect=='sneakers'">
+			<when test="kindSelect!=null and search!=null">
+				WHERE productname LIKE '%'||#{search }||'%'
+				AND kind = #{kindSelect }
+			</when>
+			<when test="kindSelect!=null">
 				WHERE kind = #{kindSelect }
 			</when>
-			<when test="kindSelect=='running'">
-				WHERE kind = #{kindSelect }
-			</when>
-			<when test="kindSelect=='walker'">
-				WHERE kind = #{kindSelect }
+			<when test="search!=null">
+				WHERE productname LIKE '%'||#{search }||'%'
 			</when>
 		</choose>
 	</select>	
@@ -34,20 +29,24 @@
 		FROM
 			(SELECT result1.*, ROWNUM AS rnum
 			FROM
-				(SELECT num, productname, kind, content, price, regdate, profile
+				(SELECT num, productname, kind, content, price, regdate, profile 
 				FROM sbproduct
 				<choose>
-					<when test="kindSelect=='sneakers'">
+					<when test="kindSelect!=null and search!=null">
+						WHERE productname LIKE '%'||#{search }||'%'
+						AND kind = #{kindSelect }
+					</when>
+					<when test="kindSelect!=null">
 						WHERE kind = #{kindSelect }
 					</when>
-					<when test="kindSelect=='running'">
-						WHERE kind = #{kindSelect }
-					</when>
-					<when test="kindSelect=='walker'">
-						WHERE kind = #{kindSelect }
+					<when test="search!=null">
+						WHERE productname LIKE '%'||#{search }||'%'
 					</when>
 				</choose>
 				<choose>
+					<when test="arr==null">
+						ORDER BY num DESC
+					</when>
 					<when test="arr=='priceHighArr'">
 						ORDER BY price DESC , num DESC
 					</when>
@@ -61,5 +60,113 @@
 				)result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
-
+	
+	<insert id="insert_sub" parameterType="productDto">
+		insert into sbproduct_sub(num, sbsize, sbcount) values(#{num},#{sbsize},#{sbcount})
+	</insert>
+	<select id="getnum" resultType="int">
+		 SELECT sbproduct_seq.currval as num FROM DUAL
+	</select>
+	
+	<!-- 상품 정보를 가져오는 sql문 -->
+	<select id="getData2" parameterType="int" resultType="ProductDto">
+		select num,productname,kind,content,price,regdate,profile,profile2
+		from sbproduct
+		where num=#{num}
+	</select>
+	<!-- 특정 상품번호의 모든 정보(신발 사이즈, 수량 포함)를 가져오는 sql문 -->
+	<select id="getSubData" parameterType="int" resultType="ProductDto">
+		SELECT detailSelect.*, ROWNUM rnum
+			FROM
+			(select num,productname,kind,content,price,regdate,profile,profile2,sbsize,sbcount
+			from sbproduct
+			inner join sbproduct_sub using(num)
+			where num=#{num}
+			order by sbsize ASC) detailSelect
+	</select>
+	<!-- 특정 상품번호에 선택할 수 있는 신발 사이즈 항목의 총 개수를 가져오는 sql문 -->
+	<select id="getSizeData" parameterType="int" resultType="int">
+		select MAX(rnum)
+			from
+			(SELECT detailSelect.*, ROWNUM rnum
+				FROM
+				(select num,productname,kind,content,price,regdate,profile,profile2,sbsize,sbcount
+				from sbproduct
+				inner join sbproduct_sub using(num)
+				where num=#{num}) detailSelect)
+	</select>
+	<!-- 특정 상품번호의 특정 사이즈의 정보(재고 개수 포함)를 리턴하는 sql문 -->
+	<select id="getStockData" parameterType="Map" resultType="productDto">
+		select detailSelect.*, ROWNUM rnum
+			from
+			(select num,productname,kind,content,price,regdate,profile,profile2,sbsize,sbcount
+				from sbproduct
+				inner join sbproduct_sub using(num)
+				where num=#{num}
+				order by sbsize ASC) detailSelect
+		where sbsize=#{size}
+	</select>
+	
+	<select id="isExist" parameterType="java.lang.String" 
+		resultType="string"> <!-- java.long.String or string 아무거나 써도 인식한다. -->
+		SELECT productname
+		FROM sbproduct
+		WHERE productname=#{inputproductname}
+	</select>
+	<delete id="productdelete" parameterType="int">
+		delete from sbproduct
+		where num=#{num}
+	</delete>
+	
+	<select id="getData" parameterType="int" resultType="productDto">
+		SELECT sbproduct.num,kind,price, productname, content, regdate, profile,
+		 sbcount, sbsize
+		FROM sbproduct, sbproduct_sub
+		WHERE sbproduct.num = sbproduct_sub.num and sbproduct.num=#{num}
+		ORDER BY sbsize asc
+	</select>
+	
+	<update id="update" parameterType="productDto">
+		UPDATE sbproduct SET kind=#{kind},price=#{price}, profile=#{profile}, content=#{content}
+		WHERE num=#{num}
+	</update>
+	<update id="updatesub" parameterType="productDto">
+		UPDATE sbproduct_sub SET
+		sbcount=#{sbcount}
+		WHERE num=#{num} and sbsize=#{sbsize}
+	</update>
+	
+	<insert id="order" parameterType="orderDto">
+		INSERT INTO sborder(num,productnum,id,name,addr,phone_num,sendrequest,totalprice,orderdate,sboption)
+		values(sborder_seq.nextval,#{productnum},#{id},#{name},#{addr},#{phone_num},#{sendrequest},#{totalPrice},sysdate,#{sboption})
+	</insert>
+	
+	<update id="addpoint" parameterType="orderDto">
+		update sblogin_account
+		set point = point + (#{totalPrice}*0.01)
+		where id = #{id}
+	</update>
+	
+	
+	
+	
+	<update id="minus_money" parameterType="orderDto">
+		update sblogin_account
+		set money = money - #{totalPrice}
+		where id = #{id}
+	</update>
+	
+	<update id="minus_count" parameterType="orderDto">
+		update sbproduct_sub
+		set sbcount =  sbcount - #{sbcount}
+		where num = #{productnum} and sbsize = #{sbsize}
+	</update>
+	
+	<select id="order_list" parameterType="string" resultType="orderDto">
+		select sborder.num as num ,productnum,id,name,addr,phone_num,sendrequest,totalprice,to_char(orderdate,'yyyy-mm-dd') as orderdate,sboption,
+		productname,profile 
+		from sborder, sbproduct
+		where sbproduct.num = productnum and id=#{id}
+		order by sborder.num desc
+	</select>
 </mapper>

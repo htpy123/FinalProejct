@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html data-ng-app="myApp">
 <head>
 <meta charset="UTF-8">
 <title></title>
@@ -10,12 +10,19 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/sinbar.css" />
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/bootstrap.bundle.min.js"></script>
+<!-- angularjs 로딩 -->
+<script src="${pageContext.request.contextPath}/resources/js/angular.min.js"></script>
+
 <style>
+		#profileForm{
+		display:none;
+	}
 	/* textarea 의 크기가 SmartEditor 의 크기가 된다. */
+	
 	#content{
 		display: none;
 		width: 100%;
-		height: 350px;
+		height: 400px;
 	}
 	
 		#profileImage{
@@ -27,7 +34,7 @@
 	}
 </style>
 </head>
-<body>
+<body data-ng-controller="insert_Ctrl">
 	<!-- header -->
 	<jsp:include page="../include/header.jsp">
 		<jsp:param value="index" name="thisPage"/>
@@ -35,8 +42,9 @@
 
 
 <div class="container" style="">
-
-	<form action="${pageContext.request.contextPath}/product/insert.do" method="post">
+	<br />
+	<h2>상품 등록</h2>
+	<form name="myForm"action="${pageContext.request.contextPath}/product/insert.do" method="post">
 				<input type="hidden" name="profile" id="profile" 
 				value="${dto.profile }"/>
 		<div class="form-row">
@@ -50,21 +58,101 @@
 			</div>
 			<div class="form-group col-md-9">
 				<label for="productname">상품명</label>
-				<input class="form-control" type="text" placeholder="상품명"name="productname"/>
+				<input data-ng-model="productname"class="form-control" data-ng-class="{'is-invalid': (myForm.productname.$invalid || myForm.productname.$canuseproductname) && myForm.productname.$dirty }" type="text" 
+				required placeholder="상품명"name="productname" ng-change="productnameChanged()"/>
+				<small class="form-text text-muted">상품명 입력해주세요 (필수)</small>
+				<div class="invalid-feedback">이미존재하는 상품명입니다.</div>
 			</div>			
 		</div>
 		<div class="form-row">
 			<div class="form-group col-md-6">
 				<label for="price">가격</label>
-				<input class="form-control" type="text" placeholder="숫자만 입력"name="price"/>
+				<input data-ng-model="price" class="form-control" type="number"required placeholder="가격 입력"name="price"/>
+				<small class="form-text text-muted">숫자만 입력하세요 (필수)</small>
 			</div>
 		</div>
-		<h5>대표 사진 등록</h3>
+		<div class="row">
+		
+		<div class="col">
+		
+		<h4>상품 사이즈 수량 등록</h4>
+		
+		
+		<br />
+		<div class="row">
+
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr"   value="230" class="checkSelect" id="check230"
+				 data-ng-model="isShow230"
+				>230	
+			</div>	
+			<div  class="col-md-8">
+				<input ng-model="size230" ng-required="isShow230" data-ng-show="isShow230" type="number" data-ng-disabled="!isShow230"  placeholder="230 size 재고 입력"name="sbcount" />
+			</div>
+		</div>	
+		<div class="row">
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr" value="240" class="checkSelect"
+				 data-ng-model="isShow240">240	
+			</div>	
+			<div class="col-md-8">
+				<input ng-model="size240"ng-required="isShow240"data-ng-show="isShow240" type="number" placeholder="240 size 재고 입력"name="sbcount"data-ng-disabled="!isShow240"/>
+			</div>
+		</div>		
+		<div class="row">	
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr" value="250" class="checkSelect"
+				 data-ng-model="isShow250">250	
+			</div>	
+			<div class="col-md-8">
+				<input ng-model="size250"ng-required="isShow250"data-ng-show="isShow250" type="number" placeholder="250 size 재고 입력"name="sbcount"data-ng-disabled="!isShow250"/>
+			</div>			
+		</div>		
+		<div class="row">	
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr" value="260" class="checkSelect"
+				 data-ng-model="isShow260">260	
+			</div>	
+			<div class="col-md-8">
+				<input ng-model="size260" data-ng-show="isShow260"ng-required="isShow260" type="number" placeholder="260 size 재고 입력"name="sbcount"data-ng-disabled="!isShow260"/>
+			</div>			
+		</div>
+		<div class="row">	
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr" value="270" class="checkSelect"
+				 data-ng-model="isShow270">270	
+			</div>	
+			<div class="col-md-8">
+				<input ng-model="size270"data-ng-show="isShow270"ng-required="isShow270" type="number" placeholder="270 size 재고 입력"name="sbcount"data-ng-disabled="!isShow270"/>
+			</div>			
+		</div>
+		<div class="row">	
+			<div class="col-md-4">
+				<input type="checkbox" name="sizearr" value="280" class="checkSelect"
+				 data-ng-model="isShow280">280	
+			</div>	
+			<div class="col-md-8">
+				<input  ng-model="size280"data-ng-show="isShow280" ng-required="isShow280" type="number" placeholder="280 size 재고 입력"name="sbcount"data-ng-disabled="!isShow280"/>
+			</div>			
+		</div>			
+		</div>
+		<div class="col">
+				<h4>대표 사진 등록</h4>
+		<br />
 		<a href="javascript:" id="profileLink">
-				<svg id="profileImage"  width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-							<path fill-rule="evenodd" d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-				</svg>
+				<svg id="profileImage"width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-earmark-image" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  				<path fill-rule="evenodd" d="M12 16a2 2 0 0 0 2-2V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8zM3 2a1 1 0 0 1 1-1h5.5v2A1.5 1.5 0 0 0 11 4.5h2V10l-2.083-2.083a.5.5 0 0 0-.76.063L8 11 5.835 9.7a.5.5 0 0 0-.611.076L3 12V2z"/>
+  				<path fill-rule="evenodd" d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+</svg>
 		</a>
+		</div>
+		</div>
+							
+		
+
+		
+
+
 		<div class="form-group">
 			<label for="content">상세정보</label>
 			<textarea class="form-control" name="content" id="content" cols="30" rows="10"></textarea>
@@ -73,7 +161,7 @@
 			
 
 
-		<button class="btn btn-outline-primary"  type="submit" onclick="submitContents(this);">등록</button>
+		<button data-ng-disabled="myForm.$invalid" class="btn btn-outline-primary"  type="submit" onclick="submitContents(this);">등록</button>
 			<button class="btn btn-outline-warning" type="reset" >취소</button>
 	</form>
 	
@@ -89,7 +177,6 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.5.1.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery.form.min.js"></script>
 <script src="${pageContext.request.contextPath }/SmartEditor/js/HuskyEZCreator.js"></script>
-<script src="${pageContext.request.contextPath }/resources/js/clickMarker.js"></script>
 <script>
 	var oEditors = [];
 	
@@ -142,7 +229,6 @@
 		oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
 	}
 	
-	
 	//  사진업로드 관한 javascript
 	//프로필 링크를 클릭했을때 실행할 함수 등록 
 	$("#profileLink").on("click", function(){
@@ -169,8 +255,32 @@
 		//회원정보 수정폼 전송될때 같이 전송 되도록한다.
 		$("#profile").val(data.imageSrc);// input type="hidden" 의 value값
 	});	
+	
+	
+	// 체크박스에대한 자바스크립트
+	
+		var myApp=angular.module("myApp", []);
+	
+	myApp.controller("insert_Ctrl", function($scope, $http){
+		//angularjs  가 초기화 될때 최초 한번만 호출된다.
+		$scope.productnameChanged=function(){
+			$http({
+				url:"checkproductname.do",
+				method:"get",
+				params:{inputproductname:$scope.productname}
+			})
+			.success(function(data){
+				//data => {isExist:true} or {isExist:false} 인 object 이다.
+				//입력한 아이디가 DB 에 존재 하지 않아야지 사용할수 있다.
+				console.log(data.isExist);
+				$scope.myForm.productname.$canuseproductname = !data.isExist;
+				$scope.myForm.productname.$canuseproductname = data.isExist;
+			});
+		};
+		
+	})
 </script>
-
+	<br />
 
 
 	<!-- footer -->
