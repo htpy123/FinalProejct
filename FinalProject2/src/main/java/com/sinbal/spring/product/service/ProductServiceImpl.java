@@ -428,6 +428,9 @@ public class ProductServiceImpl implements ProductService{
 			if(arr==null) {
 				arr="";
 			}
+			if(keyword==null) {
+				keyword="";
+			}
 			
 			System.out.println(search);
 			System.out.println(kindSelect);
@@ -464,6 +467,9 @@ public class ProductServiceImpl implements ProductService{
 			if(!arr.equals("")) {
 				dto.setArr(arr);
 			}
+			if(!keyword.equals("")) {
+				dto.setKeyword(keyword);
+			}
 			
 			//파일 목록 얻어오기
 			List<ProductDto> list=productDao.productList(dto);
@@ -493,5 +499,6 @@ public class ProductServiceImpl implements ProductService{
 			request.setAttribute("encodedK", encodedK);
 			request.setAttribute("kindSelect", kindSelect);
 			request.setAttribute("arr", arr);
+			request.setAttribute("keyword", keyword);
 	}
 }

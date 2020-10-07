@@ -31,28 +31,33 @@
         <h1 class="my-4">신발목록</h1>
 			<p>스니커즈</p>
 			<div class="list-group" id="buttonList">
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceHighArr&keyword=${keyword }"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=priceLowArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=sneakers&arr=buyHighArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">인기순</button></a>
 			</div>
 			<p>런닝화</p>
 			<div class="list-group" id="buttonList">
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceHighArr&keyword=${keyword }"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=priceLowArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=running&arr=buyHighArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">인기순</button></a>
 			</div>
 			<p>워커</p>
 			<div class="list-group" id="buttonList">
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceHighArr"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceLowArr"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button>
-				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=buyHighArr"><button type="button" class="list-group-item list-group-item-action">인기순</button>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceHighArr&keyword=${keyword }"><button class="list-group-item list-group-item-action">가격 높은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=priceLowArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">가격 낮은 순</button></a>
+				<a href="${pageContext.request.contextPath }/shop/shop.do?kindSelect=walker&arr=buyHighArr&keyword=${keyword }"><button type="button" class="list-group-item list-group-item-action">인기순</button></a>
 			</div>						
 
       </div>
       <!-- /.col-lg-3  상품목록-->
 
       <div class="col-lg-9" style="margin-top: 100px">
-
+		<div class="container">
+			<form action="${pageContext.request.contextPath }/shop/shop.do" method="get" class="form-inline my-2 my-lg-0">
+		      	<input value="${keyword }" class="form-control mr-sm-2"  type="text" name="keyword">
+		      	<button class="btn btn-praimary my-2 my-sm-0" type="submit">검색</button>
+    		</form>
+		</div>
 
         <div class="row">
 		<c:forEach var="tmp" items="${list }">
@@ -73,29 +78,26 @@
           </div>
 		
 		</c:forEach>
- 	        
-
-
-
+ 	    
         </div>
         <!-- /.row -->
  		<div class="page-display">
 			<ul class="pagination pagination-sm">
 			<c:if test="${startPageNum ne 1 }">
-				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Prev</a></li>
+				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${startPageNum-1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }&keyword=${keyword }">Prev</a></li>
 			</c:if>
 			<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 				<c:choose>
 					<c:when test="${i eq pageNum }">
-						<li class="page-item active"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">${i }</a></li>
+						<li class="page-item active"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }&keyword=${keyword }">${i }</a></li>
 					</c:when>
 					<c:otherwise>
-						<li class="page-item"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">${i }</a></li>
+						<li class="page-item"><a class="page-link" href="shop.do?pageNum=${i }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }&keyword=${keyword }">${i }</a></li>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 			<c:if test="${endPageNum lt totalPageCount }">
-				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }">Next</a></li>
+				<li class="page-item"><a class="page-link" href="shop.do?pageNum=${endPageNum+1 }&search=${encodedK }&arr=${arr }&kindSelect=${kindSelect }&keyword=${keyword }">Next</a></li>
 			</c:if>
 			</ul>	
 		</div>

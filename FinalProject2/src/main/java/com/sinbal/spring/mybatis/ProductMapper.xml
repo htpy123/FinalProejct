@@ -11,9 +11,12 @@
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM sbproduct
 		<choose>
-			<when test="kindSelect!=null and search!=null">
-				WHERE productname LIKE '%'||#{search }||'%'
+			<when test="kindSelect!=null and keyword!=null">
+				WHERE productname LIKE '%'||#{keyword }||'%'
 				AND kind = #{kindSelect }
+			</when>
+			<when test="keyword!=null">
+				WHERE productname LIKE '%'||#{keyword }||'%'
 			</when>
 			<when test="kindSelect!=null">
 				WHERE kind = #{kindSelect }
@@ -32,9 +35,12 @@
 				(SELECT num, productname, kind, content, price, regdate, profile 
 				FROM sbproduct
 				<choose>
-					<when test="kindSelect!=null and search!=null">
-						WHERE productname LIKE '%'||#{search }||'%'
+					<when test="kindSelect!=null and keyword!=null">
+						WHERE productname LIKE '%'||#{keyword }||'%'
 						AND kind = #{kindSelect }
+					</when>
+					<when test="keyword!=null">
+						WHERE productname LIKE '%'||#{keyword }||'%'
 					</when>
 					<when test="kindSelect!=null">
 						WHERE kind = #{kindSelect }
@@ -59,6 +65,12 @@
 				</choose>
 				)result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<select id="homeList" parameterType="productDto" resultType="productDto">
+		SELECT num, productname, kind, content, price, regdate, profile
+		FROM sbproduct
+		ORDER BY num DESC
 	</select>
 	
 	<insert id="insert_sub" parameterType="productDto">
